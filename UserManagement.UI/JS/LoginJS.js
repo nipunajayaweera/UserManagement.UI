@@ -8,11 +8,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 function GetPageContentsList(pageName) {
     try {
         var request = new XMLHttpRequest();
-        request.open("get", "http://localhost:54213/api/ScreenComponent/" + pageName, false);
+        request.open("get", "http://localhost:54213/api/ScreenComponent/GetActiveComponents/" + pageName, false);
         request.send();
+        activeComponentList = JSON.parse(request.responseText);
         LoadElements();
     } catch (e) {
-        throw "404";
+        throw e;
 
     }
 }
@@ -118,18 +119,30 @@ function LoadElements() {
 function LoginClickEvent() {
     var userName = document.getElementById('userNameTxtBox').value;
     var password = document.getElementById('passwordtextfield').value;
-    alert(userName);
-    var request = new XMLHttpRequest();
-    var params = { userName, password };
-    request.open("POST", "http://localhost:54213/api/ScreenComponent/", true);
+    
+    //var request = new XMLHttpRequest();
+    //var params = { "UserName": userName, "PasswordHash": password };
+    //console.log(params);
+    //request.open("POST", "http://localhost:54213/api/User/CheckLogin", true);
 
-    //Send the proper header information along with the request
-    request.setRequestHeader('Content-Type', 'application/json');
+    ////Send the proper header information along with the request
+    //request.setRequestHeader('Content-Type', 'application/json');
 
-    request.onreadystatechange = function () {//Call a function when the state changes.
-        if (request.readyState == 4 && request.status == 200) {
-            alert(request.responseText);
+    //request.onreadystatechange = function () {//Call a function when the state changes.
+    //    if (request.readyState == 4 && request.status == 200) {
+    //        alert(request.responseText);
+    //    }
+    //}
+    //var v = request.send(JSON.stringify(params));
+    //console.log(v);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:54213/api/User/CheckLogin');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var userInfo = JSON.parse(xhr.responseText);
         }
-    }
-    request.send(JSON.stringify(params));
+    };
+    xhr.send(JSON.stringify({ UserName: userName, PasswordHash: password }));
 }
