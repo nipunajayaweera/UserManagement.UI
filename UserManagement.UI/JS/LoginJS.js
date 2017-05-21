@@ -117,32 +117,30 @@ function LoadElements() {
 }
 
 function LoginClickEvent() {
+
+
+
     var userName = document.getElementById('userNameTxtBox').value;
     var password = document.getElementById('passwordtextfield').value;
     
-    //var request = new XMLHttpRequest();
-    //var params = { "UserName": userName, "PasswordHash": password };
-    //console.log(params);
-    //request.open("POST", "http://localhost:54213/api/User/CheckLogin", true);
+    var request = new XMLHttpRequest();
+    request.open('POST', 'http://localhost:54213/api/User/CheckLogin');
+    request.setRequestHeader('Content-Type', 'application/json');
 
-    ////Send the proper header information along with the request
-    //request.setRequestHeader('Content-Type', 'application/json');
-
-    //request.onreadystatechange = function () {//Call a function when the state changes.
-    //    if (request.readyState == 4 && request.status == 200) {
-    //        alert(request.responseText);
-    //    }
-    //}
-    //var v = request.send(JSON.stringify(params));
-    //console.log(v);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:54213/api/User/CheckLogin');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var userInfo = JSON.parse(xhr.responseText);
+    var userInfo = null;
+    request.onload = function () {
+        if (request.status === 200) {
+            userInfo = JSON.parse(request.responseText);
+            if (userInfo == true) {
+                alert("Login Successfully")
+            } else {
+                alert("Login Incorrect")
+            }
         }
     };
-    xhr.send(JSON.stringify({ UserName: userName, PasswordHash: password }));
+    request.send(JSON.stringify({ "UserName": userName, "PasswordHash": password }));
+
+  
+    
+    
 }
