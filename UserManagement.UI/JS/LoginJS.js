@@ -1,8 +1,7 @@
 ﻿var content = "";
 var activeComponentList;
 document.addEventListener("DOMContentLoaded", function (event) {
-    GetPageContentsList('Login');
-
+    GetPageContentsList('Login');    
 });
 
 function GetPageContentsList(pageName) {
@@ -13,11 +12,9 @@ function GetPageContentsList(pageName) {
         activeComponentList = JSON.parse(request.responseText);
         LoadElements();
     } catch (e) {
-        throw e;
-
+        throw e;   
     }
-}
-
+}    
 
 function UserNameLabel() {
     var usernamelabel = document.createElement('label');
@@ -98,28 +95,20 @@ function LoadElements() {
                     content = content.concat(loginbutton);
                     break;
                 default:
-                    break;
-
-
-            }
-
-
+                    break;  
+            }  
         } else {
             console.log("false");
 
         }
 
     }
-
-
+     
     var body = document.getElementById('body');
     body.innerHTML = content;
 }
 
-function LoginClickEvent() {
-
-
-
+function LoginClickEvent() { 
     var userName = document.getElementById('userNameTxtBox').value;
     var password = document.getElementById('passwordtextfield').value;
     
@@ -139,8 +128,5 @@ function LoginClickEvent() {
         }
     };
     request.send(JSON.stringify({ "UserName": userName, "PasswordHash": password }));
-
-  
-    
-    
+   
 }
